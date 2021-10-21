@@ -52,6 +52,11 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+//route for registration page
+app.get("/registration", (req, res) => {
+  res.render("registration")
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
