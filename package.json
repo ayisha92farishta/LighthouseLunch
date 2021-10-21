@@ -19,7 +19,8 @@
     "morgan": "^1.10.0",
     "pg": "^8.7.1",
     "pg-native": "^3.0.0",
-    "sass": "^1.43.2"
+    "sass": "^1.43.2",
+    "twilio": "^3.70.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
