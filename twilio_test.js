@@ -11,18 +11,18 @@ const client = require('twilio')(accountSid, authToken);
 //     from: '+16042271715',
 //     to: '+16472343536'
 //   })
+//   .then(message => console.log(message.sid))
 
 const sendMessage = function() {
 
   const queryString = `
-    SELECT users.id, users.phone, orders.id
+    SELECT users.phone, orders.id
     FROM users
     JOIN orders ON user_id = users.id
     WHERE orders.id = $1
-    AND users.id = $2
   `;
 
-  const queryParams = [users.id, users.phone, orders.id];
+  const queryParams = [orders.id];
 
   return db.query(queryString, queryParams)
     .then(
@@ -30,7 +30,7 @@ const sendMessage = function() {
         .create({
           body: `Your order number is ${orders.id}. Thank you for choosing Lighthouse Lunch!!`,
           from: '+16042271715',
-          to: `+${users.phone}`
+          to: `+1${users.phone}`
         })
         .create({
           body: `You have a new order! Order Number: ${orders.id}.`,
