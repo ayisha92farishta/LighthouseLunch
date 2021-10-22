@@ -53,10 +53,10 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-// //route for registration page
-// app.get("/registration", (req, res) => {
-//   res.render("registration")
-// });
+//route for registration page
+app.get("/registration", (req, res) => {
+  res.render("registration")
+});
 
 //route for login page
 app.get("/login", (req, res) => {
