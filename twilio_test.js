@@ -11,3 +11,15 @@ client.messages
      to: '+16135818947'
    })
   .then(message => console.log(message.sid));
+
+
+  // const addUser = function(user) {
+  //   return pool
+  //     .query(`
+  //       INSERT INTO users (name, email, password)
+  //       VALUES($1, $2, $3)
+  //       RETURNING *
+  //       `, [user.name, user.email, user.password])
+  //     .then(res => res.rows[0]);
+  // };
+  // exports.addUser = addUser;
