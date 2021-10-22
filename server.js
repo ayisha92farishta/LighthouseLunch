@@ -67,6 +67,11 @@ app.get("/menu", (req, res) => {
   res.render("menu")
 });
 
+//route for cart page
+app.get("/cart", (req, res) => {
+  res.render("cart")
+});
+
 
 
 app.listen(PORT, () => {

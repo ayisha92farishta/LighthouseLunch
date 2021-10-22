@@ -2,9 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Home Page</title>
-
-
+  <title>Cart</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
@@ -21,15 +19,19 @@
 
 <body>
   <%- include('partials/_header') %>
+
   <main>
     <div class='categories'></div>
+    <h3>Your Cart</h3>
     <ul>
-      <a>Appetizers</a>
-      <a>Main's</a>
-      <a>Desserts</a>
-      <a>Drinks</a>
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+      <li>Item 4</li>
     </ul>
-    <div>Menu</div>
+
+    <button type="submit" class="btn btn-success">Checkout</button>
+
   </main>
 </body>
 
