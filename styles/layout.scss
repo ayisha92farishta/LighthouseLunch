@@ -1,6 +1,52 @@
-// See: https://sass-lang.com/
+:root {
+  --black: #0a0a0a;
+  --white: #f2f2f2;
+  --brown: #8c2f12;
+  --red: #ce4419;
+}
 
-body,
-html {
+* {
+  font-family: "Open Sans", sans-serif;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  text-transform: capitalize;
+  transition: all 0.2s linear;
+}
+
+html {
+  font-size: 100%;
+  overflow-x: hidden;
+  scroll-padding-top: 5rem;
+  scroll-behavior: smooth;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: --white;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+header .logo {
+  color: --black;
+  font-size: 2rem;
+  font-weight: bolder;
+}
+
+nav {
+  background-color: var(--red);
+  width: 100%;
+  padding: 5rem 1.5rem;
+  text-align: center;
+  font-size: 2rem;
+  border-radius: 0.5rem;
 }
