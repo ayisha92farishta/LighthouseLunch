@@ -20,6 +20,18 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
-  });
+
+
+    });
+
+       //route for registration page
+    router.get("/registration", (req, res, next) => {
+      res.render("registration")
+    });
   return router;
+
+
+
 };
+
+
