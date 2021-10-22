@@ -18,19 +18,67 @@
 <body>
   <%- include('partials/_header') %>
 
-  <main>
-    <div ></div>
-    <h3>Your Cart</h3>
-    <ul>
-      <li>Item 1</li>
-      <li>Item 2</li>
-      <li>Item 3</li>
-      <li>Item 4</li>
-    </ul>
+  <main >
 
-    <button type="submit" class="btn btn-success">Checkout</button>
+    <table class="table" style="margin-top: 4.5em ;">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Price per serving (CAD)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Speghatti</td>
+          <td>Beef bolognese</td>
+          <td>8.99</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Soup</td>
+          <td>Tomato and basil</td>
+          <td>5.99</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td >Fried Rice</td>
+          <td>Mixed vegetable</td>
+          <td>10.50</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td colspan="2" >Add tax</td>
+          <td>15% VAT</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td colspan="2" class="table-active">Total</td>
+          <td>123</td>
+        </tr>
+
+
+      </tbody>
+
+
+    </table>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+
+      <button class="btn btn-success" type="button" style="width: 40%;">Checkout</button>
+    </div>
 
   </main>
+
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 </body>
 
 </html>
