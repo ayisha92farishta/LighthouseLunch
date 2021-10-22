@@ -44,6 +44,3 @@ const sendMessage = function() {
 };
 
 exports.sendMessage = sendMessage;
-
-
-
