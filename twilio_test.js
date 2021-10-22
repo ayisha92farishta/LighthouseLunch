@@ -5,7 +5,12 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 
 const client = require('twilio')(accountSid, authToken);
 
-
+// client.messages
+//   .create({
+//     body: `You have a new order! Order Number: .`,
+//     from: '+16042271715',
+//     to: '+16472343536'
+//   })
 
 const sendMessage = function() {
 
