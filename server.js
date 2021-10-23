@@ -56,6 +56,7 @@ app.get("/", (req, res) => {
 //route for registration page
 app.get("/registration", (req, res) => {
   res.render("registration")
+  res.redirect("/")
 });
 
 //route for login page
@@ -73,6 +74,11 @@ app.get("/cart", (req, res) => {
   res.render("cart")
 });
 
+app.post('/register', (req, res) => {
+
+  res.redirect('/');
+
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

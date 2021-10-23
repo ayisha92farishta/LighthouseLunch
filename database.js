@@ -5,6 +5,19 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 
+const addUser = function() {
+  return db.query(`
+  INSERT INTO users (name, email, password, phone)
+  VALUES($1, $2, $3, $4)
+  RETURNING *
+  `, [users.name, users.email, users.password, users.phone])
+    .then(res => res.rows[0]);
+};
+
+exports.addUser = addUser;
+
+
+
 const sendMessage = function() {
 
   const queryString = `
@@ -15,7 +28,7 @@ const sendMessage = function() {
   `;
 
   const queryParams = [orders.id];
-  console.log(`+1${users.phone}`)
+
   return db.query(queryString, queryParams)
     .then(
       client.messages
