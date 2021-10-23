@@ -5,7 +5,8 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 
-const addUser = function() {
+// ********** Add new user into database **********
+const addUser = function(obj) {
   return db.query(`
   INSERT INTO users (name, email, password, phone)
   VALUES($1, $2, $3, $4)
@@ -17,7 +18,7 @@ const addUser = function() {
 exports.addUser = addUser;
 
 
-
+// ********** Send SMS to client & host after checkout **********
 const sendMessage = function() {
 
   const queryString = `

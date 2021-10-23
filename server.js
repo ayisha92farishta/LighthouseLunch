@@ -37,6 +37,7 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
+const { addUser } = require("./database");
 
 
 // Mount all resource routes
@@ -56,7 +57,6 @@ app.get("/", (req, res) => {
 //route for registration page
 app.get("/registration", (req, res) => {
   res.render("registration")
-  res.redirect("/")
 });
 
 //route for login page
@@ -74,11 +74,15 @@ app.get("/cart", (req, res) => {
   res.render("cart")
 });
 
-app.post('/register', (req, res) => {
+app.post('/registration', (req, res) => {
+
+  // parse user info and call addUser with info
+  addUser(newUser);
+  console.log(newUser);
 
   res.redirect('/');
 
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
