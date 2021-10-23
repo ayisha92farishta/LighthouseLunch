@@ -82,7 +82,20 @@ app.post("/login", (req, res) => {
 
 //route for menu page
 app.get("/menu", (req, res) => {
-  res.render("menu")
+
+  const queryString = `
+  SELECT name, price, description, thumbnail_photo_url
+  FROM menu_items;
+  `;
+
+  const queryParams = [];
+
+  db.query(queryString,queryParams)
+  .then((result)=>{
+    let templateVars = {menuItems: result.rows};
+    res.render("menu", templateVars);
+  });
+
 });
 
 //route for cart page

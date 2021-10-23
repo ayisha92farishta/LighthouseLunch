@@ -18,6 +18,24 @@ const addUser = function(obj) {
 exports.addUser = addUser;
 
 
+// ********** Menu Items **********
+const getMenuItems = function() {
+
+  const queryString = `
+    SELECT name, price, description, thumbnail_photo_url
+    FROM menu_items;
+    `;
+
+    const queryParams = [];
+
+    db.query(queryString, queryParams)
+      .then(res => res.rows[0]);
+
+;}
+
+exports.getMenuItems = getMenuItems;
+
+
 // ********** Send SMS to client & host after checkout **********
 const sendMessage = function() {
 
