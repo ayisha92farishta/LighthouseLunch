@@ -8,6 +8,7 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const cookieSession = require('cookie-session');
+const bodyParser = require('body-parser');
 
 // PG database client/connection setup
 const { Pool } = require("pg");
@@ -23,6 +24,8 @@ app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2']
 }))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
@@ -76,7 +79,7 @@ app.post("/registration", (req, res) => {
   const password = req.body.password;
   const phone = req.body.phone;
 
-  console.log(email)
+  console.log(name, email, password, phone);
 
   const queryString = `
     INSERT INTO users (name, email, password, phone)
