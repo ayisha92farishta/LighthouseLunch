@@ -57,21 +57,42 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
-// Home page
-// Warning: avoid creating more routes in this file!
-// Separate them into separate routes files (see above).
-
-//App home page
+// ********** GET ROUTES **********
 app.get("/", (req, res) => {
   res.render("index");
 });
 
-//registration get route
 app.get("/registration", (req, res) => {
   res.render("registration")
 });
 
-//registration post route
+app.get("/login", (req, res) => {
+  res.render("login")
+});
+
+app.get("/menu", (req, res) => {
+
+  const queryString = `
+  SELECT id, name, price, description, thumbnail_photo_url
+  FROM menu_items;
+  `;
+
+  const queryParams = [];
+
+  db.query(queryString,queryParams)
+  .then((result)=>{
+    let templateVars = {menuItems: result.rows};
+    res.render("menu", templateVars);
+  });
+
+});
+
+app.get("/cart", (req, res) => {
+  res.render("cart")
+});
+
+// ********** POST ROUTES **********
+
 app.post("/registration", (req, res) => {
 
   const name = req.body.name;
@@ -79,7 +100,7 @@ app.post("/registration", (req, res) => {
   const password = req.body.password;
   const phone = req.body.phone;
 
-  console.log(name, email, password, phone);
+  console.log(name, email, password, phone)
 
   const queryString = `
     INSERT INTO users (name, email, password, phone)
@@ -98,37 +119,8 @@ app.post("/registration", (req, res) => {
 
 });
 
-//login get route
-app.get("/login", (req, res) => {
-  res.render("login")
-});
-
-//login post route
 app.post("/login", (req, res) => {
   res.redirect("/");
-});
-
-//route for menu page
-app.get("/menu", (req, res) => {
-
-  const queryString = `
-  SELECT id, name, price, description, thumbnail_photo_url
-  FROM menu_items;
-  `;
-
-  const queryParams = [];
-
-  db.query(queryString,queryParams)
-  .then((result)=>{
-    let templateVars = {menuItems: result.rows};
-    res.render("menu", templateVars);
-  });
-
-});
-
-//route for cart page
-app.get("/cart", (req, res) => {
-  res.render("cart")
 });
 
 app.post("/cart", (req, res) => {
@@ -164,18 +156,18 @@ app.post("/cart", (req, res) => {
 });
 
 
-
-//logout route
-app.post("/logout", (req, res) => {
-  req.session = null;
-  res.redirect("/");
-});
-
 app.post("/menu", (req, res) => {
 
 
 });
 
+// ********** LOGOUT ROUTE **********
+app.post("/logout", (req, res) => {
+  req.session = null;
+  res.redirect("/");
+});
+
+// ********** LISTEN **********
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
