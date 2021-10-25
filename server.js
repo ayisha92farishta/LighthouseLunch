@@ -70,20 +70,47 @@ app.get("/login", (req, res) => {
   res.render("login")
 });
 
+app.get("/login/:id", (req, res) => {
+
+  const { id } = req.params;
+
+  req.session.user_id = id;
+
+  res.redirect('/menu')
+
+});
+
 app.get("/menu", (req, res) => {
 
-  const queryString = `
+  const queryStringMenuItem = `
   SELECT id, name, price, description, thumbnail_photo_url
   FROM menu_items;
   `;
 
-  const queryParams = [];
+  const queryStringUser = `
+    SELECT *
+    FROM users
+    WHERE users.id = $1;
+  `;
 
-  db.query(queryString,queryParams)
-  .then((result)=>{
-    let templateVars = {menuItems: result.rows};
-    res.render("menu", templateVars);
-  });
+  const queryParamsMenuItem = [];
+
+  const queryParamsUser = [`${req.session.user_id}`];
+
+  Promise.all([
+    db.query(queryStringMenuItem, queryParamsMenuItem),
+    db.query(queryStringUser, queryParamsUser)
+  ])
+    .then((results)=>{
+
+      console.log(results[0].rows)
+
+      let templateVars = {menuItems: results[0].rows, user: results[1].rows[0]};
+
+      res.render("menu", templateVars);
+
+    });
+
 
 });
 
@@ -100,22 +127,21 @@ app.post("/registration", (req, res) => {
   const password = req.body.password;
   const phone = req.body.phone;
 
-  console.log(name, email, password, phone)
-
   const queryString = `
     INSERT INTO users (name, email, password, phone)
-    VALUES (name, email, password, phone);
+    VALUES ($1, $2, $3, $4)
+    RETURNING *;
   `;
 
-  const queryParams = [];
+  const queryParams = [name, email, password, phone];
 
   db.query(queryString, queryParams)
-  .then((result) => {
-    let templateVars = {name, email, password, phone: result.rows};
-    res.render("registration", templateVars);
-  });
-
-  res.redirect("/menu");
+    .then((result) => {
+      res.redirect("/registration");
+    })
+    .catch(error => {
+      console.log(error.message)
+    });
 
 });
 
@@ -129,29 +155,27 @@ app.post("/cart", (req, res) => {
     SELECT users.phone, orders.id
     FROM users
     JOIN orders ON user_id = users.id
-    WHERE orders.id = $1
+    WHERE users.id = 1
   `;
 
-  const queryParams = [orders.id];
+  const queryParams = [];
 
-  console.log(`+1${users.phone}`)
+  db.query(queryString, queryParams)
+  .then((result) => {
+    let templateVars = {cartItems: result.rows};
+    res.render("cart", templateVars);
+    console.log(templateVars);
+  })
 
-  return db.query(queryString, queryParams)
-    .then(
-      client.messages
-        .create({
-          body: `Your order number is ${orders.id}. Thank you for choosing Lighthouse Lunch!!`,
-          from: '+16042271715',
-          to: `+1${users.phone}`
-        })
-        .create({
-          body: `You have a new order! Order Number: ${orders.id}.`,
-          from: '+16042271715',
-          to: '+16472343536'
-        })
-        .then(message => console.log(message.sid))
-    )
-    .then(res => res.rows[0]);
+  client.messages
+  .create({
+     body: `Your order number is ${orders.id}. Thank you for choosing Lighthouse Lunch!!`,
+     from: '+16042271715',
+     to: `+1${users.phone}`
+   })
+  .then(message => console.log(message.sid));
+
+  res.redirect('/cart');
 
 });
 
