@@ -95,15 +95,13 @@ app.get("/menu", (req, res) => {
 
   const queryParamsMenuItem = [];
 
-  const queryParamsUser = [`${req.session.user_id}`];
+  const queryParamsUser = [req.session.user_id];
 
   Promise.all([
     db.query(queryStringMenuItem, queryParamsMenuItem),
     db.query(queryStringUser, queryParamsUser)
   ])
     .then((results)=>{
-
-      console.log(results[0].rows)
 
       let templateVars = {menuItems: results[0].rows, user: results[1].rows[0]};
 
@@ -146,7 +144,7 @@ app.post("/registration", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  res.redirect("/");
+  res.redirect("/menu");
 });
 
 app.post("/cart", (req, res) => {
@@ -155,16 +153,15 @@ app.post("/cart", (req, res) => {
     SELECT users.phone, orders.id
     FROM users
     JOIN orders ON user_id = users.id
-    WHERE users.id = 1
+    WHERE users.id = $1
   `;
 
-  const queryParams = [];
+  const queryParams = [users.id];
 
   db.query(queryString, queryParams)
   .then((result) => {
     let templateVars = {cartItems: result.rows};
     res.render("cart", templateVars);
-    console.log(templateVars);
   })
 
   client.messages

@@ -22,6 +22,7 @@
   <%- include('partials/_header') %>
 
   <main class='container'>
+
     <section class='categories'>
       <a href=>Categories</a>
       <a href=>Snacks</a>
@@ -31,13 +32,15 @@
     </section>
 
     <section id='menu-items-container'>
-      <% for (let item of menuItems) { %>
-        <img src="<%= item.thumbnail_photo_url %>" style="max-height: 400px; max-width: 400px;"/>
-        <h2><%= item.name %></h2>
-        <h2><%= item.description %></h2>
-        <h2><%= item.price %></h2>
-        <button type='submit'>Add To Cart</button>
-      <% } %>
+      <form action="/menu" method="POST" id="addToCart">
+        <% for (let item of menuItems) { %>
+          <img src="<%= item.thumbnail_photo_url %>" style="max-height: 400px; max-width: 400px;"/>
+          <h2><%= item.name %></h2>
+          <h2><%= item.description %></h2>
+          <h2><%= item.price %></h2>
+          <button type='submit'>Add To Cart</button>
+        <% } %>
+      </form>
     </section>
 
 
