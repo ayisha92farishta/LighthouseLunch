@@ -17,7 +17,7 @@ db.connect();
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
-//         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
+//  The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan("dev"));
 app.use(cookieSession({
   name: 'session',
@@ -50,6 +50,9 @@ app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 
 // Note: mount other resources here, using the same pattern above
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
 
 // Home page
 // Warning: avoid creating more routes in this file!
@@ -67,7 +70,29 @@ app.get("/registration", (req, res) => {
 
 //registration post route
 app.post("/registration", (req, res) => {
-  res.redirect("/");
+
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
+  const phone = req.body.phone;
+
+  console.log(email)
+
+  const queryString = `
+    INSERT INTO users (name, email, password, phone)
+    VALUES (name, email, password, phone);
+  `;
+
+  const queryParams = [];
+
+  db.query(queryString, queryParams)
+  .then((result) => {
+    let templateVars = {name, email, password, phone: result.rows};
+    res.render("registration", templateVars);
+  });
+
+  res.redirect("/menu");
+
 });
 
 //login get route
@@ -84,7 +109,7 @@ app.post("/login", (req, res) => {
 app.get("/menu", (req, res) => {
 
   const queryString = `
-  SELECT name, price, description, thumbnail_photo_url
+  SELECT id, name, price, description, thumbnail_photo_url
   FROM menu_items;
   `;
 
@@ -103,10 +128,49 @@ app.get("/cart", (req, res) => {
   res.render("cart")
 });
 
+app.post("/cart", (req, res) => {
+
+  const queryString = `
+    SELECT users.phone, orders.id
+    FROM users
+    JOIN orders ON user_id = users.id
+    WHERE orders.id = $1
+  `;
+
+  const queryParams = [orders.id];
+
+  console.log(`+1${users.phone}`)
+
+  return db.query(queryString, queryParams)
+    .then(
+      client.messages
+        .create({
+          body: `Your order number is ${orders.id}. Thank you for choosing Lighthouse Lunch!!`,
+          from: '+16042271715',
+          to: `+1${users.phone}`
+        })
+        .create({
+          body: `You have a new order! Order Number: ${orders.id}.`,
+          from: '+16042271715',
+          to: '+16472343536'
+        })
+        .then(message => console.log(message.sid))
+    )
+    .then(res => res.rows[0]);
+
+});
+
+
+
 //logout route
 app.post("/logout", (req, res) => {
   req.session = null;
   res.redirect("/");
+});
+
+app.post("/menu", (req, res) => {
+
+
 });
 
 app.listen(PORT, () => {
