@@ -24,6 +24,7 @@ app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2']
 }))
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -83,8 +84,8 @@ app.get("/login/:id", (req, res) => {
 app.get("/menu", (req, res) => {
 
   const queryStringMenuItem = `
-  SELECT id, name, price, description, thumbnail_photo_url
-  FROM menu_items;
+    SELECT id, name, price, description, thumbnail_photo_url
+    FROM menu_items;
   `;
 
   const queryStringUser = `
@@ -94,7 +95,6 @@ app.get("/menu", (req, res) => {
   `;
 
   const queryParamsMenuItem = [];
-
   const queryParamsUser = [req.session.user_id];
 
   Promise.all([
@@ -102,18 +102,34 @@ app.get("/menu", (req, res) => {
     db.query(queryStringUser, queryParamsUser)
   ])
     .then((results)=>{
-
       let templateVars = {menuItems: results[0].rows, user: results[1].rows[0]};
-
       res.render("menu", templateVars);
-
+    })
+    .catch(error => {
+      console.log(error.message)
     });
-
 
 });
 
 app.get("/cart", (req, res) => {
-  res.render("cart")
+
+  const queryString = `
+    SELECT menu_items_carts.id as cart_id, menu_item_id, menu_items.name, menu_items.price, menu_items.thumbnail_photo_url
+    FROM menu_items_carts
+    JOIN menu_items ON menu_items.id = menu_item_id;
+  `;
+
+  const queryParams = [];
+
+  db.query(queryString, queryParams)
+  .then((results)=>{
+    let templateVars = {cartItems: results.rows};
+    res.render("cart", templateVars);
+  })
+  .catch(error => {
+    console.log(error.message)
+  });
+
 });
 
 // ********** POST ROUTES **********
@@ -163,6 +179,9 @@ app.post("/cart", (req, res) => {
     let templateVars = {cartItems: result.rows};
     res.render("cart", templateVars);
   })
+  .catch(error => {
+    console.log(error.message)
+  });
 
   client.messages
   .create({
@@ -177,8 +196,22 @@ app.post("/cart", (req, res) => {
 });
 
 
-app.post("/menu", (req, res) => {
+app.post("/menu/:id", (req, res) => {
 
+  const queryString = `
+    INSERT INTO menu_items_carts (menu_item_id)
+    VALUES (${req.params.id});
+  `;
+
+  const queryParams = [];
+
+    db.query(queryString, queryParams)
+      .then((result) => {
+        res.redirect("/menu");
+      })
+      .catch(error => {
+        console.log(error.message)
+      });
 
 });
 
