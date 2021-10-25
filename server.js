@@ -151,7 +151,7 @@ app.post("/registration", (req, res) => {
 
   db.query(queryString, queryParams)
     .then((result) => {
-      res.redirect("/registration");
+      res.redirect("/menu");
     })
     .catch(error => {
       console.log(error.message)
