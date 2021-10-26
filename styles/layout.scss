@@ -63,17 +63,19 @@ main .index_body{
 main.container {
   display: flex;
   flex-direction: row;
+  margin-top: 100px;
 
 }
 
 section.categories {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
 }
 
 #menu-items-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-around;
 }
