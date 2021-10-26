@@ -37,7 +37,7 @@ header {
 }
 
 header .navbar-brand {
-  color: rgb(88, 89, 177);
+  color: #5859b1;
   font-size: 2rem;
   font-weight: bolder;
 }
@@ -50,20 +50,17 @@ nav {
   text-align: center;
   font-size: 1.5em;
   border-radius: 0.5rem;
-
 }
 
-main .index_body{
+main .index_body {
   display: flex;
   justify-content: space-between;
   padding: 5em;
-
 }
 
 main.container {
   display: flex;
   flex-direction: row;
-
 }
 
 section.categories {
@@ -77,3 +74,5 @@ section.categories {
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+/*# sourceMappingURL=layout.css.map */

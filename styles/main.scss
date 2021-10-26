@@ -19,3 +19,23 @@ body {
 section #menu-items-container {
   border-style: dashed;
 }
+
+
+main.container {
+  display: flex;
+  flex-direction: row;
+
+}
+
+section.categories {
+  display: flex;
+  flex-direction: column;
+}
+
+section #menu-items-container {
+  border-style: dashed;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap
+}
+
