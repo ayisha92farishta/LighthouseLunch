@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/layout.scss" type="text/css" />
+  <link rel="stylesheet" href="/styles/main.scss" type="text/css" />
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
@@ -18,57 +20,25 @@
 <body>
   <%- include('partials/_header') %>
 
-  <main >
+  <main id="cart-container">
 
-    <table class="table" style="margin-top: 4.5em ;">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">Description</th>
-          <th scope="col">Price per serving (CAD)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Speghatti</td>
-          <td>Beef bolognese</td>
-          <td>8.99</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Soup</td>
-          <td>Tomato and basil</td>
-          <td>5.99</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td >Fried Rice</td>
-          <td>Mixed vegetable</td>
-          <td>10.50</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2" >Add tax</td>
-          <td>15% VAT</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2" class="table-active">Total</td>
-          <td>123</td>
-        </tr>
+    <% for (let item of cartItems) { %>
+      <section id="cart-item">
+      <form action="delete" method="POST" id="deleteItem">
+        <img src="<%= item.thumbnail_photo_url %>" style="max-height: 200px; max-width: 200px;"/>
+        <h2><%= item.name %></h2>
+        <h2><%= item.price %></h2>
+        <button class="btn btn-success" type="submit" style="width: 40%;">Remove From Cart</button>
+        </form>
+      </section>
+    <% } %>
 
+    <form action="/cart" method="POST" id="checkoutOrder">
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <button class="btn btn-success" type="submit" style="width: 20%;">Checkout</button>
+      </div>
+    </form>
 
-      </tbody>
-
-
-    </table>
-
-    <div class="d-grid gap-2 col-6 mx-auto">
-
-      <button class="btn btn-success" type="button" style="width: 40%;">Checkout</button>
-    </div>
 
   </main>
 

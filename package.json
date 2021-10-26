@@ -7,19 +7,23 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "local": "./node_modules/.bin/nodemon -L --ignore public/",
-    "db:reset": "node bin/resetdb.js"
+    "db:reset": "node bin/resetdb.js",
+    "sass": "sass --watch styles/layout.scss:styles/layout.css"
+
   },
   "author": "Lighthouse Labs",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "chalk": "^2.4.2",
+    "cookie-session": "^1.4.0",
     "dotenv": "^2.0.0",
     "ejs": "^2.7.4",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "pg": "^8.7.1",
     "pg-native": "^3.0.0",
-    "sass": "^1.43.2",
+    "sass": "^1.43.3",
     "twilio": "^3.70.0"
   },
   "devDependencies": {
