@@ -35,6 +35,17 @@ const getMenuItems = function() {
 
 exports.getMenuItems = getMenuItems;
 
+// ********** DELETE ITEM FROM THE CART **********
+
+const deleteItemFromCart = function(db, itemId) {
+  const queryString = `DELETE FROM menu_items_carts WHERE id = $1`;
+  const queryParams = [itemId];
+    return db.query(queryString, queryParams)
+    .then(() => console.log("Successfully deleted!"))
+    .catch(err => console.error(err));
+}
+
+exports.deleteItemFromCart = deleteItemFromCart;
 
 // ********** Send SMS to client & host after checkout **********
 const sendMessage = function() {

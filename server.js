@@ -46,7 +46,7 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
-const { addUser } = require("./database");
+const { addUser, deleteItemFromCart } = require("./database");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -222,24 +222,14 @@ app.post("/logout", (req, res) => {
 });
 
 // ********** DELETE ITEM FROM CART ROUTE **********
-app.delete("/cart/:itemId", (req, res) => {
+app.post("/cart/:itemId", (req, res) => {
 
-  const queryString = `
-    DELETE FROM menu_items_carts
-    WHERE menu_item_id = $1
-  `;
-
-  const queryParams = [menu_item_id];
-
-  db.query(queryString, queryParams)
-  .then((result) => {
-    console.log("Successfully deleted!")
-  })
-  .catch(error => {
-    console.log(error.message)
-  });
-
+ const itemId = req.params.itemId;
+ deleteItemFromCart(db, itemId)
+ .then(() => {
   res.redirect('/cart')
+ })
+
 
 });
 
