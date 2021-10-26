@@ -46,6 +46,7 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
+
 const { addUser, deleteItemFromCart } = require("./database");
 
 // Mount all resource routes
@@ -132,6 +133,11 @@ app.get("/cart", (req, res) => {
 
 });
 
+
+app.get("/checkout", (req,res) => {
+  res.render("checkout")
+})
+
 // ********** POST ROUTES **********
 
 app.post("/registration", (req, res) => {
@@ -193,7 +199,7 @@ app.post("/cart", (req, res) => {
     console.log(error.message)
   });
 
-  res.redirect('/menu');
+  res.redirect('/checkout');
 
 });
 
