@@ -79,3 +79,15 @@ section.categories {
   flex-wrap: wrap;
   justify-content: space-around;
 }
+
+#cart-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
+#cart-item {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}

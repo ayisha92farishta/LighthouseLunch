@@ -221,6 +221,28 @@ app.post("/logout", (req, res) => {
   res.redirect("/");
 });
 
+// ********** DELETE ITEM FROM CART ROUTE **********
+app.delete("/cart/:itemId", (req, res) => {
+
+  const queryString = `
+    DELETE FROM menu_items_carts
+    WHERE menu_item_id = $1
+  `;
+
+  const queryParams = [menu_item_id];
+
+  db.query(queryString, queryParams)
+  .then((result) => {
+    console.log("Successfully deleted!")
+  })
+  .catch(error => {
+    console.log(error.message)
+  });
+
+  res.redirect('/cart')
+
+});
+
 // ********** LISTEN **********
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
