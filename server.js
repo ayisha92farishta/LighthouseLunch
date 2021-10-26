@@ -166,13 +166,15 @@ app.post("/login", (req, res) => {
 app.post("/cart", (req, res) => {
 
   const queryString = `
-    SELECT users.phone, orders.id
+    SELECT users.phone, users.name, users.id as user_id, orders.id as order_id
     FROM users
     JOIN orders ON user_id = users.id
-    WHERE users.id = $1
+    WHERE users.id = 1;
   `;
 
-  const queryParams = [users.id];
+  const queryParams = [];
+
+  console.log(queryString, queryParams);
 
   db.query(queryString, queryParams)
   .then((result) => {
