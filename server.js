@@ -166,16 +166,26 @@ app.post("/login", (req, res) => {
 app.post("/cart", (req, res) => {
 
   const queryString = `
-    SELECT users.phone, orders.id
+    SELECT users.phone, users.name, users.id as user_id, orders.id as order_id
     FROM users
     JOIN orders ON user_id = users.id
-    WHERE users.id = $1
+    WHERE user_id = $1;
   `;
 
-  const queryParams = [users.id];
+  const queryParams = [req.session.user_id];
+
+  console.log(queryString, queryParams);
 
   db.query(queryString, queryParams)
   .then((result) => {
+    const clientInfo = result.rows[0];
+    client.messages
+    .create({
+       body: `Your order number is ${clientInfo.order_id}. Thank you for choosing Lighthouse Lunch!!`,
+       from: '+16042271715',
+       to: `+1${clientInfo.phone}`
+     })
+    .then(message => console.log(message.sid));
     let templateVars = {cartItems: result.rows};
     res.render("cart", templateVars);
   })
@@ -183,15 +193,7 @@ app.post("/cart", (req, res) => {
     console.log(error.message)
   });
 
-  client.messages
-  .create({
-     body: `Your order number is ${orders.id}. Thank you for choosing Lighthouse Lunch!!`,
-     from: '+16042271715',
-     to: `+1${users.phone}`
-   })
-  .then(message => console.log(message.sid));
-
-  res.redirect('/cart');
+  res.redirect('/menu');
 
 });
 
@@ -228,8 +230,7 @@ app.post("/cart/:itemId", (req, res) => {
  deleteItemFromCart(db, itemId)
  .then(() => {
   res.redirect('/cart')
- })
-
+ });
 
 });
 
