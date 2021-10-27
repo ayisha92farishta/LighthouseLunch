@@ -48,7 +48,7 @@
         <td>
         <img src="<%= item.thumbnail_photo_url %>" style="max-height: 100px; max-width: 100px;"/>
      </td>
-     <td><h2><%= item.name %></h2></td>
+     <td><h4><%= item.name %></h4></td>
 
      <td ><%= item.price %></td>
 
@@ -70,7 +70,7 @@
 <tr>
 
   <td> </td>
-  <td> <h1>Grand Total </h1></td>
+  <td> <h4>Grand Total </h4></td>
 
   <td > <%= totalPrice %> </td>
       <td><form action="/cart" method="POST" id="checkoutOrder">

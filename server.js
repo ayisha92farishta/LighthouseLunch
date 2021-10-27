@@ -137,6 +137,7 @@ app.get("/cart", (req, res) => {
       //console.log('+++++++++++ element', element);
       totalPrice += parseFloat(element.price);
     }
+    totalPrice = totalPrice.toFixed(2);
     //console.log('########Total', total)
     let templateVars = {cartItems: results.rows, totalPrice};
     res.render("cart", templateVars);
