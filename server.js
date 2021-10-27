@@ -61,8 +61,35 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 // ********** GET ROUTES **********
+
 app.get("/", (req, res) => {
-  res.render("index");
+
+  const queryStringMenuItem = `
+    SELECT id, name, price, description, thumbnail_photo_url
+    FROM menu_items;
+  `;
+
+  const queryStringUser = `
+    SELECT *
+    FROM users
+    WHERE users.id = $1;
+  `;
+
+  const queryParamsMenuItem = [];
+  const queryParamsUser = [req.session.user_id];
+
+  Promise.all([
+    db.query(queryStringMenuItem, queryParamsMenuItem),
+    db.query(queryStringUser, queryParamsUser)
+  ])
+    .then((results)=>{
+      let templateVars = {menuItems: results[0].rows, user: results[1].rows[0]};
+      res.render("menu", templateVars);
+    })
+    .catch(error => {
+      console.log(error.message)
+    });
+
 });
 
 app.get("/registration", (req, res) => {
@@ -129,8 +156,10 @@ app.get("/cart", (req, res) => {
 
   db.query(queryString, queryParams)
   .then((results)=>{
-    console.log(results.rows)
+    //console.log(results.rows)
+
     //++++++++++Total Price Function++++++++++++
+
     let totalPrice = 0;
     for (let i = 0; i < results.rows.length; i++) {
       const element = results.rows[i];
@@ -255,7 +284,7 @@ app.post("/cart/:itemId", (req, res) => {
     INSERT INTO menu_items_carts (menu_item_id)
     VALUES ($1);
   `;
-console.log(req.params.itemId)
+//console.log(req.params.itemId)
   const queryParams = [req.params.itemId];
 
     db.query(queryString, queryParams)
