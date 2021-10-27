@@ -7,7 +7,7 @@ $(document).ready(function() {
 
   for (var i = 0; i < tdPrice.length; i++) {
 
-    if (tdBudget[i].className == "item-price") {
+    if (tdPrice[i].className == "item-price") {
       sumPrice += isNaN(tdPrice[i].innerHTML) ? 0 : parseInt(tdPrice[i].innerHTML);
     }
   }
