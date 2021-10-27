@@ -36,17 +36,22 @@
 <tbody id="tablePrice">
 
  <% for (let item of cartItems) { %>
-
   <tr>
       <section id="cart-item">
-      <form action="delete" method="POST" class="deleteItem" data-id="<%= item.cart_id %>">
-      <td> <img src="<%= item.thumbnail_photo_url %>" style="max-height: 200px; max-width: 200px;"/> </td>
+      <form class="deleteItem" data-id="<%= item.cart_id %>">
+        <td>
+        <img src="<%= item.thumbnail_photo_url %>" style="max-height: 200px; max-width: 200px;"/>
+     </td>
      <td><h2><%= item.name %></h2></td>
      <td class="item-price"><h2><%= item.price %></h2></td>
      <td> <button class="btn btn-success" type="submit" style="width: 40%;">Remove From Cart</button> </td>
 
-     </form>
-     </section>
+        </form>
+        <form action="add" method="POST" class="addItem" data-id="<%= item.menu_item_id %>">
+       <td> <button class="btn btn-success" type="submit" style="width: 40%;">Add item</button> </td>
+
+        </form>
+      </section>
 </tr>
    <% } %>
 

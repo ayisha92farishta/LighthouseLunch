@@ -116,7 +116,8 @@ app.get("/menu", (req, res) => {
 app.get("/cart", (req, res) => {
 
   const queryString = `
-    SELECT menu_items_carts.id as cart_id, menu_item_id, menu_items.name, menu_items.price, menu_items.thumbnail_photo_url
+    SELECT menu_items_carts.id as cart_id, menu_item_id, menu_items.name, menu_items.price,
+    menu_items.thumbnail_photo_url
     FROM menu_items_carts
     JOIN menu_items ON menu_items.id = menu_item_id;
   `;
@@ -125,6 +126,7 @@ app.get("/cart", (req, res) => {
 
   db.query(queryString, queryParams)
   .then((results)=>{
+    console.log(results.rows)
     let templateVars = {cartItems: results.rows};
     res.render("cart", templateVars);
 
@@ -233,6 +235,27 @@ app.post("/menu/:id", (req, res) => {
 
 });
 
+// ********** ADD EXIST ITEM INSIDE CART ROUTE **********
+
+app.post("/cart/:itemId", (req, res) => {
+//console.log("hi there")
+  const queryString = `
+    INSERT INTO menu_items_carts (menu_item_id)
+    VALUES ($1);
+  `;
+console.log(req.params.itemId)
+  const queryParams = [req.params.itemId];
+
+    db.query(queryString, queryParams)
+      .then((result) => {
+        res.status(200).send("Success");
+      })
+      .catch(error => {
+        console.log(error.message)
+      });
+
+ });
+
 // ********** LOGOUT ROUTE **********
 app.post("/logout", (req, res) => {
   req.session = null;
@@ -240,12 +263,12 @@ app.post("/logout", (req, res) => {
 });
 
 // ********** DELETE ITEM FROM CART ROUTE **********
-app.post("/cart/:itemId", (req, res) => {
+app.delete("/cart/:itemId", (req, res) => {
 
  const itemId = req.params.itemId;
  deleteItemFromCart(db, itemId)
- .then(() => {
-  res.redirect('/cart')
+ .then((response) => {
+  res.status(200).send(response)
  });
 
 });
