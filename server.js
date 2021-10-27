@@ -10,6 +10,7 @@ const morgan = require("morgan");
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 
+
 // PG database client/connection setup
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
@@ -126,10 +127,13 @@ app.get("/cart", (req, res) => {
   .then((results)=>{
     let templateVars = {cartItems: results.rows};
     res.render("cart", templateVars);
+
   })
   .catch(error => {
     console.log(error.message)
   });
+
+
 
 });
 
@@ -163,12 +167,17 @@ app.post("/registration", (req, res) => {
       console.log(error.message)
     });
 
+
+
 });
 
 app.post("/login", (req, res) => {
   res.redirect("/menu");
 });
 
+
+
+// **************ACTIONS AFTER CHECKOUT BUTTON PRESSED**********
 app.post("/cart", (req, res) => {
 
   const queryString = `
@@ -203,7 +212,7 @@ app.post("/cart", (req, res) => {
 
 });
 
-
+//****************ADDS ITEMS TO CART*******
 app.post("/menu/:id", (req, res) => {
 
   const queryString = `
@@ -215,8 +224,9 @@ app.post("/menu/:id", (req, res) => {
 
     db.query(queryString, queryParams)
       .then((result) => {
+
         res.redirect("/menu");
-      })
+})
       .catch(error => {
         console.log(error.message)
       });
