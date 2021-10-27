@@ -4,8 +4,8 @@ body {
   // align-items: center;
   min-height: 100vh;
 
-  background: rgb(163, 208, 219);
-  background: linear-gradient(
+
+  background-color: linear-gradient(
     227deg,
     rgba(163, 208, 219, 1) 0%,
     rgba(163, 176, 219, 1) 20%,
@@ -14,6 +14,11 @@ body {
     rgba(163, 208, 219, 1) 74%,
     rgba(163, 208, 219, 1) 100%
   );
+
+  background-color: #c9c3a5;
+  background-image: url("https://www.transparenttextures.com/patterns/dark-brick-wall.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+
 }
 
 section #menu-items-container {
@@ -24,6 +29,10 @@ section #menu-items-container {
 main.container {
   display: flex;
   flex-direction: row;
+  h1{
+    font-weight: bold;
+    text-align: center;
+  }
 
 }
 

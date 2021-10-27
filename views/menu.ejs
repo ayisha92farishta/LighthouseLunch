@@ -22,18 +22,12 @@
 
   <main class='container'>
 
-    <section class='categories'>
-      <h4>Categories</h3>
-      <a href=>Snacks</a>
-      <a href=>Drinks</a>
-      <a href=>Breakfast</a>
-      <a href=>Lunch</a>
-    </section>
+  <h1>Menu Items</h1>
 
     <section id="menu-items-container">
       <% for (let item of menuItems) { %>
       <form action="/menu/<%= item.id %>" method="POST" id="addToCart">
-          <img src="<%= item.thumbnail_photo_url %>" style="max-height: 400px; max-width: 400px;"/>
+          <img src="<%= item.thumbnail_photo_url %>" style="height: 400px; width: 300px;"/>
           <h2><%= item.name %></h2>
           <h2><%= item.description %></h2>
           <h2><%= item.price %></h2>

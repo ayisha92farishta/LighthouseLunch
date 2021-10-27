@@ -134,11 +134,11 @@ app.get("/cart", (req, res) => {
     let totalPrice = 0;
     for (let i = 0; i < results.rows.length; i++) {
       const element = results.rows[i];
-      //console.log('+++++++++++ element', element);
+
       totalPrice += parseFloat(element.price);
     }
     totalPrice = totalPrice.toFixed(2);
-    //console.log('########Total', total)
+
     let templateVars = {cartItems: results.rows, totalPrice};
     res.render("cart", templateVars);
 
@@ -203,10 +203,9 @@ app.post("/cart", (req, res) => {
 
   const queryParams = [req.session.user_id];
 
-  console.log(queryString, queryParams);
-
   db.query(queryString, queryParams)
   .then((result) => {
+    
     const clientInfo = result.rows[0];
     client.messages
     .create({
@@ -215,6 +214,8 @@ app.post("/cart", (req, res) => {
        to: `+1${clientInfo.phone}`
      })
     .then(message => console.log(message.sid));
+
+
     let templateVars = {cartItems: result.rows};
     res.render("cart", templateVars);
   })
