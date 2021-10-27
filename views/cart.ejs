@@ -15,6 +15,7 @@
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
+  <script type="text/javascript" src="/scripts/total_price.js"></script>
 </head>
 
 <body>
@@ -32,55 +33,37 @@
     <th>Remove </th>
   </tr>
 </thead>
-<tbody>
-
-
+<tbody id="tablePrice">
 
  <% for (let item of cartItems) { %>
 
   <tr>
-
       <section id="cart-item">
       <form action="delete" method="POST" class="deleteItem" data-id="<%= item.cart_id %>">
-        <td>
-        <img src="<%= item.thumbnail_photo_url %>" style="max-height: 200px; max-width: 200px;"/>
-     </td>
+      <td> <img src="<%= item.thumbnail_photo_url %>" style="max-height: 200px; max-width: 200px;"/> </td>
      <td><h2><%= item.name %></h2></td>
-     <td><h2><%= item.price %></h2></td>
+     <td class="item-price"><h2><%= item.price %></h2></td>
      <td> <button class="btn btn-success" type="submit" style="width: 40%;">Remove From Cart</button> </td>
 
-        </form>
-      </section>
-
+     </form>
+     </section>
 </tr>
    <% } %>
 
 </tbody>
-</table>
-
-
-<table>
-  <thead>
     <tr>
-
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-
+      <td></td>
       <td> <h1>Grand Total </h1></td>
-      <td ><h1>43.99</h1> </td>
+      <td id="sumPrice"> </td>
       <td><form action="/cart" method="POST" id="checkoutOrder">
       <div class="d-grid gap-2 col-6 mx-auto">
         <button class="btn btn-success" type="submit" style="width: 100%;" >Checkout</button>
-      </div>
-    </td>
+      </div> </td>
+
     </tr>
-  </tbody>
+<tfoot>
 </table>
+
   </main>
 
 
