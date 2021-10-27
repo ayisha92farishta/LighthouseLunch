@@ -83,14 +83,32 @@ section.categories {
 #cart-container {
   display: flex;
   flex-direction: column;
-  margin-top: 100px;
+  margin-top: 50px;
+  padding: 20px;
+  font-family: "Lucida Console", "Courier New", monospace;
+
+      .cart-table {
+
+              thead {
+              font-weight: bold;
+              font-size:30px ;
+            }
+            tbody {
+              font-size: 20px;
+            }
+            tfoot {
+              font-size: 20px;
+            }
+
+      }
+
 }
 
 #cart-item {
   display: flex;
   justify-content: center;
-  margin: 20px;
 }
+
 
 
 

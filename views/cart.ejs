@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.scss" type="text/css" />
-  <link rel="stylesheet" href="/styles/main.scss" type="text/css" />
+  <link rel="stylesheet" href="/styles/main.scss" type="text/css" />\<link rel="stylesheet" href="/styles/main.scss" type="text/css" />
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
@@ -48,7 +48,7 @@
         <td>
         <img src="<%= item.thumbnail_photo_url %>" style="max-height: 100px; max-width: 100px;"/>
      </td>
-     <td><h4><%= item.name %></h4></td>
+     <td><%= item.name %></td>
 
      <td ><%= item.price %></td>
 
@@ -70,7 +70,7 @@
 <tr>
 
   <td> </td>
-  <td> <h4>Grand Total </h4></td>
+  <td> Grand Total </td>
 
   <td > <%= totalPrice %> </td>
       <td><form action="/cart" method="POST" id="checkoutOrder">
