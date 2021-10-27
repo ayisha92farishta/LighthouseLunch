@@ -10,6 +10,7 @@ const morgan = require("morgan");
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 
+
 // PG database client/connection setup
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
@@ -46,7 +47,8 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
-const { addUser } = require("./database");
+
+const { addUser, deleteItemFromCart } = require("./database");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -114,7 +116,8 @@ app.get("/menu", (req, res) => {
 app.get("/cart", (req, res) => {
 
   const queryString = `
-    SELECT menu_items_carts.id as cart_id, menu_item_id, menu_items.name, menu_items.price, menu_items.thumbnail_photo_url
+    SELECT menu_items_carts.id as cart_id, menu_item_id, menu_items.name, menu_items.price,
+    menu_items.thumbnail_photo_url
     FROM menu_items_carts
     JOIN menu_items ON menu_items.id = menu_item_id;
   `;
@@ -123,14 +126,23 @@ app.get("/cart", (req, res) => {
 
   db.query(queryString, queryParams)
   .then((results)=>{
+    console.log(results.rows)
     let templateVars = {cartItems: results.rows};
     res.render("cart", templateVars);
+
   })
   .catch(error => {
     console.log(error.message)
   });
 
+
+
 });
+
+
+app.get("/checkout", (req,res) => {
+  res.render("checkout")
+})
 
 // ********** POST ROUTES **********
 
@@ -157,25 +169,40 @@ app.post("/registration", (req, res) => {
       console.log(error.message)
     });
 
+
+
 });
 
 app.post("/login", (req, res) => {
   res.redirect("/menu");
 });
 
+
+
+// **************ACTIONS AFTER CHECKOUT BUTTON PRESSED**********
 app.post("/cart", (req, res) => {
 
   const queryString = `
-    SELECT users.phone, orders.id
+    SELECT users.phone, users.name, users.id as user_id, orders.id as order_id
     FROM users
     JOIN orders ON user_id = users.id
-    WHERE users.id = $1
+    WHERE user_id = $1;
   `;
 
-  const queryParams = [users.id];
+  const queryParams = [req.session.user_id];
+
+  console.log(queryString, queryParams);
 
   db.query(queryString, queryParams)
   .then((result) => {
+    const clientInfo = result.rows[0];
+    client.messages
+    .create({
+       body: `Your order number is ${clientInfo.order_id}. Thank you for choosing Lighthouse Lunch!!`,
+       from: '+16042271715',
+       to: `+1${clientInfo.phone}`
+     })
+    .then(message => console.log(message.sid));
     let templateVars = {cartItems: result.rows};
     res.render("cart", templateVars);
   })
@@ -183,19 +210,11 @@ app.post("/cart", (req, res) => {
     console.log(error.message)
   });
 
-  client.messages
-  .create({
-     body: `Your order number is ${orders.id}. Thank you for choosing Lighthouse Lunch!!`,
-     from: '+16042271715',
-     to: `+1${users.phone}`
-   })
-  .then(message => console.log(message.sid));
-
-  res.redirect('/cart');
+  res.redirect('/checkout');
 
 });
 
-
+//****************ADDS ITEMS TO CART*******
 app.post("/menu/:id", (req, res) => {
 
   const queryString = `
@@ -207,13 +226,35 @@ app.post("/menu/:id", (req, res) => {
 
     db.query(queryString, queryParams)
       .then((result) => {
+
         res.redirect("/menu");
-      })
+})
       .catch(error => {
         console.log(error.message)
       });
 
 });
+
+// ********** ADD EXIST ITEM INSIDE CART ROUTE **********
+
+app.post("/cart/:itemId", (req, res) => {
+//console.log("hi there")
+  const queryString = `
+    INSERT INTO menu_items_carts (menu_item_id)
+    VALUES ($1);
+  `;
+console.log(req.params.itemId)
+  const queryParams = [req.params.itemId];
+
+    db.query(queryString, queryParams)
+      .then((result) => {
+        res.status(200).send("Success");
+      })
+      .catch(error => {
+        console.log(error.message)
+      });
+
+ });
 
 // ********** LOGOUT ROUTE **********
 app.post("/logout", (req, res) => {
@@ -224,22 +265,11 @@ app.post("/logout", (req, res) => {
 // ********** DELETE ITEM FROM CART ROUTE **********
 app.delete("/cart/:itemId", (req, res) => {
 
-  const queryString = `
-    DELETE FROM menu_items_carts
-    WHERE menu_item_id = $1
-  `;
-
-  const queryParams = [menu_item_id];
-
-  db.query(queryString, queryParams)
-  .then((result) => {
-    console.log("Successfully deleted!")
-  })
-  .catch(error => {
-    console.log(error.message)
-  });
-
-  res.redirect('/cart')
+ const itemId = req.params.itemId;
+ deleteItemFromCart(db, itemId)
+ .then((response) => {
+  res.status(200).send(response)
+ });
 
 });
 
