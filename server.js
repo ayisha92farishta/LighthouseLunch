@@ -165,35 +165,42 @@ app.post("/login", (req, res) => {
 
 app.post("/cart", (req, res) => {
 
-  const queryString = `
+  const queryStringTwilio = `
     SELECT users.phone, users.name, users.id as user_id, orders.id as order_id
     FROM users
     JOIN orders ON user_id = users.id
     WHERE user_id = $1;
   `;
+  const queryParamsTwilio = [req.session.user_id];
 
-  const queryParams = [req.session.user_id];
+  const queryStringCreateOrder = `
+    SELECT menu_items_carts.id as cart_id, menu_item_id, menu_items.name, menu_items.price, menu_items.thumbnail_photo_url
+    FROM menu_items_carts
+    JOIN menu_items ON menu_items.id = menu_item_id;
+  `;
+  const queryParamsCreateOrder = [];
 
-  console.log(queryString, queryParams);
+  Promise.all([
+    db.query(queryStringTwilio, queryParamsTwilio),
+    db.query(queryStringCreateOrder, queryParamsCreateOrder)
+  ])
+    // .then((result) => {
+    //   const clientInfo = result.rows[0];
+    //   client.messages
+    //     .create({
+    //       body: `Your order number is ${clientInfo.order_id}. Thank you for choosing Lighthouse Lunch!!`,
+    //       from: '+16042271715',
+    //       to: `+1${clientInfo.phone}`
+    //     })
+    //     .then(message => console.log(message.sid));
+    //     let templateVars = {cartItems: result.rows};
+    //     res.render("cart", templateVars);
+    // })
+    // .catch(error => {
+    //   console.log(error.message)
+    // });
 
-  db.query(queryString, queryParams)
-  .then((result) => {
-    const clientInfo = result.rows[0];
-    client.messages
-    .create({
-       body: `Your order number is ${clientInfo.order_id}. Thank you for choosing Lighthouse Lunch!!`,
-       from: '+16042271715',
-       to: `+1${clientInfo.phone}`
-     })
-    .then(message => console.log(message.sid));
-    let templateVars = {cartItems: result.rows};
-    res.render("cart", templateVars);
-  })
-  .catch(error => {
-    console.log(error.message)
-  });
-
-  res.redirect('/menu');
+  res.redirect('/cart');
 
 });
 
