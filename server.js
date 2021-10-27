@@ -113,6 +113,9 @@ app.get("/menu", (req, res) => {
 
 });
 
+
+
+
 app.get("/cart", (req, res) => {
 
   const queryString = `
@@ -127,7 +130,15 @@ app.get("/cart", (req, res) => {
   db.query(queryString, queryParams)
   .then((results)=>{
     console.log(results.rows)
-    let templateVars = {cartItems: results.rows};
+    //++++++++++Total Price Function++++++++++++
+    let totalPrice = 0;
+    for (let i = 0; i < results.rows.length; i++) {
+      const element = results.rows[i];
+      //console.log('+++++++++++ element', element);
+      totalPrice += parseFloat(element.price);
+    }
+    //console.log('########Total', total)
+    let templateVars = {cartItems: results.rows, totalPrice};
     res.render("cart", templateVars);
 
   })
