@@ -30,6 +30,7 @@
     <th>Item name</th>
     <th>Price</th>
     <th>Remove </th>
+    <th>Add </th>
   </tr>
 </thead>
 <tbody>
@@ -41,14 +42,15 @@
       <section id="cart-item">
       <form class="deleteItem" data-id="<%= item.cart_id %>">
         <td>
-        <img src="<%= item.thumbnail_photo_url %>" style="max-height: 200px; max-width: 200px;"/>
+        <img src="<%= item.thumbnail_photo_url %>" style="max-height: 100px; max-width: 100px;"/>
      </td>
      <td><h2><%= item.name %></h2></td>
      <td><h2><%= item.price %></h2></td>
      <td> <button class="btn btn-success" type="submit" style="width: 40%;">Remove From Cart</button> </td>
 
         </form>
-        <form action="add" method="POST" class="addItem" data-id="<%= item.menu_item_id %>">
+
+       <form action="add" method="POST" class="addItem" data-id="<%= item.menu_item_id %>">
        <td> <button class="btn btn-success" type="submit" style="width: 40%;">Add item</button> </td>
 
         </form>
@@ -57,22 +59,12 @@
    <% } %>
 
 </tbody>
-</table>
 
+<tfoot>
+<tr>
 
-<table>
-  <thead>
-    <tr>
-
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-
-      <td> <h1>Grand Total </h1></td>
+  <td> </td>
+  <td> <h1>Grand Total </h1></td>
       <td ><h1>43.99</h1> </td>
       <td><form action="/cart" method="POST" id="checkoutOrder">
       <div class="d-grid gap-2 col-6 mx-auto">
@@ -80,8 +72,11 @@
       </div>
     </td>
     </tr>
-  </tbody>
+
+</tfoot>
 </table>
+
+
   </main>
 
 
