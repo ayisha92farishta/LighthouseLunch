@@ -36,6 +36,11 @@ header {
   z-index: 1000;
 }
 
+#logo-text:hover {
+  font-size: 250%;
+}
+
+
 
 header .navbar-brand {
   color: rgb(88, 89, 177);
@@ -97,20 +102,22 @@ section.categories {
   flex-direction: column;
   margin-top: 50px;
   padding: 20px;
-  font-family: "Lucida Console", "Courier New", monospace;
+  font-weight: bold;
+
 
       .cart-table {
 
               thead {
-              font-weight: bold;
-              font-size:30px ;
+
+              font-size:25px ;
             }
             tbody {
+              font-weight:normal;
               font-size: 22px;
             }
             tfoot {
               font-size: 25px;
-              font-weight: bold;
+
             }
 
       }
@@ -132,3 +139,5 @@ section.categories {
 #login-body {
   padding: 100px;
 }
+
+
