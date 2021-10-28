@@ -24,13 +24,13 @@
 
   <main id="cart-container">
 
-<h3>My Cart</h3>
+<h3 style="text-align: center; padding: 20px;">My Cart</h3>
 <table class="cart-table">
 <thead>
   <tr>
     <th>Image</th>
     <th>Item name</th>
-    <th>Price</th>
+    <th>Price (CAD)</th>
     <th>Remove </th>
     <th>Add </th>
   </tr>
@@ -46,18 +46,18 @@
       <section id="cart-item">
       <form class="deleteItem" data-id="<%= item.cart_id %>">
         <td>
-        <img src="<%= item.thumbnail_photo_url %>" style="max-height: 100px; max-width: 100px;"/>
+        <img src="<%= item.thumbnail_photo_url %>" style="max-height: 100px; max-width: 100px; padding: 5px;"/>
      </td>
      <td><%= item.name %></td>
 
      <td ><%= item.price %></td>
 
-     <td> <button class="btn btn-success" type="submit" style="width: auto;">Remove From Cart</button> </td>
+     <td> <button class="btn btn-outline-dark" type="submit" style="width: auto;">Remove From Cart</button> </td>
 
         </form>
 
        <form action="add" method="POST" class="addItem" data-id="<%= item.menu_item_id %>">
-       <td> <button class="btn btn-success" type="submit" style="width: auto;">Add item</button> </td>
+       <td> <button class="btn btn-outline-dark" type="submit" style="width: auto;">Add item</button> </td>
 
         </form>
       </section>
@@ -66,21 +66,24 @@
 
 </tbody>
 
+
 <tfoot>
-<tr>
+  <tr>
 
-  <td> </td>
-  <td> Grand Total </td>
+    <td> </td>
+    <td> Grand Total </td>
 
-  <td > <%= totalPrice %> </td>
-      <td><form action="/cart" method="POST" id="checkoutOrder">
-          <div class="d-grid gap-2 col-6 mx-auto">
-            <button class="btn btn-success" type="submit" style="width: 100%;" >Checkout</button>
-          </div>
-    </td>
-    </tr>
-</tfoot>
+    <td > <%= totalPrice %> </td>
+        <td><form action="/cart" method="POST" id="checkoutOrder">
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <button class="btn btn-success" type="submit" style="width: 100%;" >Checkout</button>
+            </div>
+      </td>
+      </tr>
+  </tfoot>
+
 </table>
+
 
   </main>
 
