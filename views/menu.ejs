@@ -28,7 +28,7 @@
       <% for (let item of menuItems) { %>
       <form action="/menu/<%= item.id %>" method="POST" id="addToCart">
           <img src="<%= item.thumbnail_photo_url %>" style="height: 400px; width: 300px;"/>
-          <h2><%= item.name %></h2>
+          <h2 style="padding-top: 10px;"><%= item.name %></h2>
           <h2><%= item.description %></h2>
           <h2> CAD <%= item.price %></h2>
 
