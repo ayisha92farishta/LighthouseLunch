@@ -48,7 +48,7 @@ app.use(express.static("public"));
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
 
-const { addUser, deleteItemFromCart } = require("./database");
+const { addUser, deleteItemFromCart, clearCart } = require("./database");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -220,7 +220,7 @@ app.post("/login", (req, res) => {
 
 
 
-// **************ACTIONS AFTER CHECKOUT BUTTON PRESSED**********
+// ************** ACTIONS AFTER CHECKOUT BUTTON PRESSED **********
 app.post("/cart", (req, res) => {
 
   const queryString = `
@@ -234,7 +234,7 @@ app.post("/cart", (req, res) => {
 
   db.query(queryString, queryParams)
   .then((result) => {
-    
+
     const clientInfo = result.rows[0];
     client.messages
     .create({
@@ -252,11 +252,14 @@ app.post("/cart", (req, res) => {
     console.log(error.message)
   });
 
+  clearCart(db)
+
   res.redirect('/checkout');
 
 });
 
-//****************ADDS ITEMS TO CART*******
+//*********** ADDS ITEMS TO CART *******
+
 app.post("/menu/:id", (req, res) => {
 
   const queryString = `
@@ -298,13 +301,9 @@ app.post("/cart/:itemId", (req, res) => {
 
  });
 
-// ********** LOGOUT ROUTE **********
-app.post("/logout", (req, res) => {
-  req.session = null;
-  res.redirect("/");
-});
 
 // ********** DELETE ITEM FROM CART ROUTE **********
+
 app.delete("/cart/:itemId", (req, res) => {
 
  const itemId = req.params.itemId;
@@ -315,7 +314,15 @@ app.delete("/cart/:itemId", (req, res) => {
 
 });
 
+// ********** LOGOUT ROUTE **********
+
+app.post("/logout", (req, res) => {
+  req.session = null;
+  res.redirect("/");
+});
+
 // ********** LISTEN **********
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });

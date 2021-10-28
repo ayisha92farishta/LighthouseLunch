@@ -1,4 +1,5 @@
 // Client facing scripts here
+
 $(() => {
   const deleteItemFromCart = function(itemId) {
     console.log(itemId)

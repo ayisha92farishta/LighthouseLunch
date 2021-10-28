@@ -82,3 +82,17 @@ const sendMessage = function() {
 };
 
 exports.sendMessage = sendMessage;
+
+// ********** DELETE ITEM FROM THE CART AFTER SUBMIT THE ORDER **********
+
+const clearCart = function(db) {
+  const queryString = `DELETE FROM menu_items_carts`;
+  const queryParams = [];
+    return db.query(queryString, queryParams)
+    .then(() => {
+      return "Successfully deleted!";
+    })
+    .catch(err => console.error(err));
+}
+
+exports.clearCart = clearCart;
