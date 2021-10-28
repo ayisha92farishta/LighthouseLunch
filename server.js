@@ -156,7 +156,8 @@ app.get("/cart", (req, res) => {
 
   db.query(queryString, queryParams)
   .then((results)=>{
-    //console.log(results.rows)
+
+    console.log(results.rows)
 
     //++++++++++Total Price Function++++++++++++
 
@@ -168,7 +169,7 @@ app.get("/cart", (req, res) => {
     }
     totalPrice = totalPrice.toFixed(2);
 
-    let templateVars = {cartItems: results.rows, totalPrice};
+    let templateVars = {cartItems: results.rows, totalPrice , };
     res.render("cart", templateVars);
 
   })

@@ -143,10 +143,21 @@ section.categories {
 #register-body {
   padding: 100px;
 
+  #register-box {
+    border-style:outset;
+    border-width: 15px;
+    border-color: rgb(103, 123, 180);
+  }
 }
 
 #login-body {
   padding: 100px;
+
+  #login-box {
+    border-style:outset;
+    border-width: 15px;
+    border-color: rgb(103, 123, 180);
+  }
 }
 
 
