@@ -5,6 +5,12 @@
   <title>Cart</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+ <!-- google fonts links -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+
   <!-- Local Links for css styling -->
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -27,6 +33,9 @@
  padding: 20px;
  font-weight: bold;
  font-size: 50px;">My Cart</h3>
+
+<% if( totalPrice > 0 ){ %>
+
 <table class="cart-table">
 <thead>
   <tr>
@@ -85,6 +94,15 @@
   </tfoot>
 
 </table>
+
+
+<% } else  { %>
+  <h2 style="text-align: center; padding-top: 100px;">Your cart is empty!</h2>
+  <h3 style="text-align: center; padding: 30px;">Click below and check out our menu for today</h3>
+  <a class="navbar-brand" href="/menu" style="color:rgba(31, 7, 70, 0.884); font-size: 40px ;font-family:'Lobster', cursive;text-align: center; padding: 30px;">Lighthouse Lunch</a>
+  <% } %>
+
+
 
 
   </main>
