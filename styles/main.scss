@@ -1,11 +1,5 @@
-body {
-  //display: flex;
-  //justify-content: center;
-  // align-items: center;
-  min-height: 100vh;
 
-
-  background-color: linear-gradient(
+$base-color: linear-gradient(
     227deg,
     rgba(163, 208, 219, 1) 0%,
     rgba(163, 176, 219, 1) 20%,
@@ -14,10 +8,16 @@ body {
     rgba(163, 208, 219, 1) 74%,
     rgba(163, 208, 219, 1) 100%
   );
+body {
+  //display: flex;
+  //justify-content: center;
+  // align-items: center;
+  min-height: 100vh;
+
+
+  background:$base-color
 
   background-color:#ae99d4;;
-background-image: url("https://www.transparenttextures.com/patterns/dust.png");
-/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 
 }
 
@@ -32,6 +32,9 @@ main.container {
   h1{
     font-weight: bold;
     text-align: center;
+  }
+  button {
+    border-width: 3px;
   }
 
 }
