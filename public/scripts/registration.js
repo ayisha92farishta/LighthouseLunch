@@ -28,8 +28,3 @@
 
 //   // POST TO /REGISTER
 // };
-
-
-
-
-

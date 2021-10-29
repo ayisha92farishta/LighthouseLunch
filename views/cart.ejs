@@ -4,11 +4,12 @@
 <head>
   <title>Cart</title>
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
- <!-- google fonts links -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <!-- google fonts links -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 
 
   <!-- Local Links for css styling -->
@@ -27,103 +28,120 @@
 <body>
   <%- include('partials/_header') %>
 
-  <main id="cart-container">
+    <main id="cart-container">
 
-<h3 style="text-align: center;
+      <h3 style="text-align: center;
  padding: 20px;
  font-weight: bold;
  font-size: 50px;">My Cart</h3>
 
-<% if( totalPrice > 0 ){ %>
+      <% if( totalPrice> 0 ){ %>
 
-<table class="cart-table">
-<thead>
-  <tr>
-    <th>Image</th>
-    <th>Item name</th>
-    <th>Price (CAD)</th>
-    <th>Remove From Cart </th>
-    <th>Add </th>
-    <th>quantity</th>
-    <th>Delete </th>
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Item name</th>
+              <th>Price (CAD)</th>
+              <th>Remove From Cart </th>
+              <th>Add </th>
+              <th>quantity</th>
+              <th>Delete </th>
 
-  </tr>
-</thead>
-
-
-<tbody >
+            </tr>
+          </thead>
 
 
-
- <% for (let item of cartItems) { %>
-  <tr>
-      <section id="cart-item">
-      <form class="deleteItem" data-id="<%= item.cart_id %>">
-        <td>
-        <img src="<%= item.thumbnail_photo_url %>" style="max-height: 100px; max-width: 100px; padding: 5px;"/>
-     </td>
-     <td><%= item.name %></td>
-
-     <td ><%= item.price %></td>
-
-     <td> <button class="btn btn-outline-dark" type="submit" style="width: auto;">Remove From Cart</button> </td>
-
-        </form>
-
-       <form action="add" method="POST" class="addItem" data-id="<%= item.menu_item_id %>">
-
-       <td> <button class="btn btn-outline-dark" type="submit" style="width: auto;">+</button> </td>
-       <td class="item-quantity"><%= item.qty %></td>
-        </form>
-        <form class="dleteoneItem" data_id="<%= item.menu_item_id %>">
-
-          <td> <button class="btn btn-outline-dark" type="submit" style="width: auto;">-</button> </td>
-
-
-           </form>
-      </section>
-</tr>
-   <% } %>
-
-</tbody>
-
-
-<tfoot>
-  <tr>
-
-    <td> </td>
-    <td> Grand Total  </td>
-
-
-    <td > <%= totalPrice %> </td>
-        <td><form action="/cart" method="POST" id="checkoutOrder">
-            <div class="d-grid gap-2 col-6 mx-auto">
-              <button class="btn btn-dark" type="submit" style="width: 100%;" >Checkout</button>
-            </div>
-      </td>
-      </tr>
-  </tfoot>
-
-</table>
-
-
-<% } else  { %>
-  <h2 style="text-align: center; padding-top: 100px;">Your cart is empty!</h2>
-  <h3 style="text-align: center; padding: 30px;">Click below and check out our menu for today</h3>
-  <a class="navbar-brand" href="/menu" style="color:rgba(31, 7, 70, 0.884); font-size: 40px ;font-family:'Lobster', cursive;text-align: center; padding: 30px;">Lighthouse Lunch</a>
-  <% } %>
+          <tbody>
 
 
 
+            <% for (let item of cartItems) { %>
+              <tr>
+                <section id="cart-item">
+                  <form class="deleteItem" data-id="<%= item.cart_id %>">
+                    <td>
+                      <img src="<%= item.thumbnail_photo_url %>"
+                        style="max-height: 100px; max-width: 100px; padding: 5px;" />
+                    </td>
+                    <td>
+                      <%= item.name %>
+                    </td>
 
-  </main>
+                    <td>
+                      <%= item.price %>
+                    </td>
+
+                    <td> <button class="btn btn-outline-dark" type="submit" style="width: auto;">Remove From
+                        Cart</button> </td>
+
+                  </form>
+
+                  <form action="add" method="POST" class="addItem" data-id="<%= item.menu_item_id %>">
+
+                    <td> <button class="btn btn-outline-dark" type="submit" style="width: auto;">+</button> </td>
+                    <td class="item-quantity">
+                      <%= item.qty %>
+                    </td>
+                  </form>
+                  <form class="dleteoneItem" data_id="<%= item.menu_item_id %>">
+
+                    <td> <button class="btn btn-outline-dark" type="submit" style="width: auto;">-</button> </td>
+
+
+                  </form>
+                </section>
+              </tr>
+              <% } %>
+
+          </tbody>
+
+
+          <tfoot>
+            <tr>
+
+              <td> </td>
+              <td> Grand Total </td>
+
+
+              <td>
+                <%= totalPrice %>
+              </td>
+              <td>
+                <form action="/cart" method="POST" id="checkoutOrder">
+                  <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn btn-dark" type="submit" style="width: 100%;">Checkout</button>
+                  </div>
+              </td>
+            </tr>
+          </tfoot>
+
+        </table>
+
+
+        <% } else { %>
+          <h2 style="text-align: center; padding-top: 100px;">Your cart is empty!</h2>
+          <h3 style="text-align: center; padding: 30px;">Click below and check out our menu for today</h3>
+          <a class="navbar-brand" href="/menu"
+            style="color:rgba(31, 7, 70, 0.884); font-size: 40px ;font-family:'Lobster', cursive;text-align: center; padding: 30px;">Lighthouse
+            Lunch</a>
+          <% } %>
 
 
 
-  <!-- Bootstrap JS -->
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </main>
+
+
+
+    <!-- Bootstrap JS -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"></script>
 
 </body>
 

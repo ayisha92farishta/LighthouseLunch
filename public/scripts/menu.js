@@ -1,19 +1,16 @@
-$(document).ready(function() {
-
+$(document).ready(function () {
   // $(".menu").on("load", loadMenuItems);
 
   const loadMenuItems = function () {
-    $.ajax('/menu', { method: 'GET' })
-      .then(function (getMenuItems) {
-console.log("Test",getMenuItems);
-        //renderMenuItems(getMenuItems);
-      });
+    $.ajax("/menu", { method: "GET" }).then(function (getMenuItems) {
+      console.log("Test", getMenuItems);
+      //renderMenuItems(getMenuItems);
+    });
   };
 
   // ********** functions **********
 
-  const createMenuItem = function() {
-
+  const createMenuItem = function () {
     const $menuItem = $(`<article class="menu item"</article>`);
 
     let html = `
@@ -28,18 +25,13 @@ console.log("Test",getMenuItems);
     let menuElement = $menuItem.append(html);
 
     return menuElement;
-
   };
 
   const renderMenuItems = function (items) {
-    $('#menu-items-container').html('');
+    $("#menu-items-container").html("");
     for (let item of items) {
       const $menuItem = createMenuItem(item);
-      $('#menu-items-container').append($menuItem);
+      $("#menu-items-container").append($menuItem);
     }
   };
 });
-
-
-
-

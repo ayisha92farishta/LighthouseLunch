@@ -1,9 +1,8 @@
-const dbParams = require('./lib/db');
-require('dotenv').config();
+const dbParams = require("./lib/db");
+require("dotenv").config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken);
-
+const client = require("twilio")(accountSid, authToken);
 
 // const sendMessage = function() {
 
@@ -37,9 +36,6 @@ const client = require('twilio')(accountSid, authToken);
 
 // exports.sendMessage = sendMessage;
 
-
-
-
 // Note: Since we're using the `await` keyword in this Function, it must be declared as `async`
 exports.handler = async function (context, event, callback) {
   // The pre-initialized Twilio Client is available from the `context` object
@@ -49,17 +45,17 @@ exports.handler = async function (context, event, callback) {
   // a private Asset, an API call, a call to a database, etc to name some options.
   const groupMessages = [
     {
-      name: 'Person1',
-      to: '+16472343536',
-      body: 'Hello Brian',
-      from: '+16042271715',
+      name: "Person1",
+      to: "+16472343536",
+      body: "Hello Brian",
+      from: "+16042271715",
     },
     {
-      name: 'Person2',
-      to: '+16042120111',
-      body: 'Hello Meridy',
-      from: '+16042271715',
-    }
+      name: "Person2",
+      to: "+16042120111",
+      body: "Hello Meridy",
+      from: "+16042271715",
+    },
   ];
 
   try {
@@ -72,7 +68,7 @@ exports.handler = async function (context, event, callback) {
     results.forEach((result) => console.log(`Success: ${result.sid}`));
     // Make sure to only call `callback` once everything is finished, and to pass
     // null as the first parameter to signal successful execution.
-    return callback(null, 'Batch SMS Successful');
+    return callback(null, "Batch SMS Successful");
   } catch (error) {
     console.error(error);
     return callback(error);
