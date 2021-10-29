@@ -48,7 +48,7 @@ app.use(express.static("public"));
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
 
-const { addUser, deleteItemFromCart, clearCart } = require("./database");
+const { addUser, removeItemFromCart, clearCartAfterSubmit } = require("./database");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -147,9 +147,10 @@ app.get("/cart", (req, res) => {
 
   const queryString = `
     SELECT menu_items_carts.id as cart_id, menu_item_id, menu_items.name, menu_items.price,
-    menu_items.thumbnail_photo_url
+    menu_items.thumbnail_photo_url, menu_items_carts.qty
     FROM menu_items_carts
-    JOIN menu_items ON menu_items.id = menu_item_id;
+    JOIN menu_items ON menu_items.id = menu_item_id
+    ORDER BY menu_items.name;
   `;
 
   const queryParams = [];
@@ -157,16 +158,19 @@ app.get("/cart", (req, res) => {
   db.query(queryString, queryParams)
   .then((results)=>{
 
-    console.log(results.rows)
+    //console.log(results.rows)
 
     //++++++++++Total Price Function++++++++++++
 
     let totalPrice = 0;
-    for (let i = 0; i < results.rows.length; i++) {
-      const element = results.rows[i];
-
-      totalPrice += parseFloat(element.price);
+     for (let i = 0; i < results.rows.length; i++) {
+     const element = results.rows[i];
+    if (element) {
+      totalPrice += parseFloat(element.price*element.qty);
     }
+
+    }
+
     totalPrice = totalPrice.toFixed(2);
 
     let templateVars = {cartItems: results.rows, totalPrice , };
@@ -253,7 +257,7 @@ app.post("/cart", (req, res) => {
     console.log(error.message)
   });
 
-  clearCart(db)
+  clearCartAfterSubmit(db)
 
   res.redirect('/checkout');
 
@@ -264,8 +268,8 @@ app.post("/cart", (req, res) => {
 app.post("/menu/:id", (req, res) => {
 
   const queryString = `
-    INSERT INTO menu_items_carts (menu_item_id)
-    VALUES (${req.params.id});
+    INSERT INTO menu_items_carts (menu_item_id, qty)
+    VALUES (${req.params.id}, 1);
   `;
 
   const queryParams = [];
@@ -286,8 +290,8 @@ app.post("/menu/:id", (req, res) => {
 app.post("/cart/:itemId", (req, res) => {
 //console.log("hi there")
   const queryString = `
-    INSERT INTO menu_items_carts (menu_item_id)
-    VALUES ($1);
+    UPDATE menu_items_carts SET qty = qty + 1
+    WHERE menu_item_id = $1;
   `;
 //console.log(req.params.itemId)
   const queryParams = [req.params.itemId];
@@ -302,18 +306,41 @@ app.post("/cart/:itemId", (req, res) => {
 
  });
 
+ // ********** DELETE ITEM FROM CART ROUTE **********
 
-// ********** DELETE ITEM FROM CART ROUTE **********
+app.patch("/cart/:itemId", (req, res) => {
+  //console.log("hi there")
+    const queryString = `
+      UPDATE menu_items_carts SET qty = qty - 1
+      WHERE menu_item_id = $1;
+    `;
+  //console.log(req.params.itemId)
+    const queryParams = [req.params.itemId];
+
+      db.query(queryString, queryParams)
+        .then((result) => {
+          res.send("Success");
+        })
+        .catch(error => {
+          console.log(error.message)
+        });
+
+   });
+
+
+// ********** Clear CART ROUTE **********
 
 app.delete("/cart/:itemId", (req, res) => {
 
  const itemId = req.params.itemId;
- deleteItemFromCart(db, itemId)
+ removeItemFromCart(db, itemId)
  .then((response) => {
   res.status(200).send(response)
  });
 
 });
+
+
 
 // ********** LOGOUT ROUTE **********
 

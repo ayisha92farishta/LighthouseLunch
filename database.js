@@ -37,7 +37,7 @@ exports.getMenuItems = getMenuItems;
 
 // ********** DELETE ITEM FROM THE CART **********
 
-const deleteItemFromCart = function(db, itemId) {
+const removeItemFromCart = function(db, itemId) {
   const queryString = `DELETE FROM menu_items_carts WHERE id = $1`;
   const queryParams = [itemId];
     return db.query(queryString, queryParams)
@@ -47,7 +47,7 @@ const deleteItemFromCart = function(db, itemId) {
     .catch(err => console.error(err));
 }
 
-exports.deleteItemFromCart = deleteItemFromCart;
+exports.removeItemFromCart = removeItemFromCart;
 
 
 // ********** Send SMS to client & host after checkout **********
@@ -85,7 +85,7 @@ exports.sendMessage = sendMessage;
 
 // ********** DELETE ITEM FROM THE CART AFTER SUBMIT THE ORDER **********
 
-const clearCart = function(db) {
+const clearCartAfterSubmit = function(db) {
   const queryString = `DELETE FROM menu_items_carts`;
   const queryParams = [];
     return db.query(queryString, queryParams)
@@ -95,4 +95,4 @@ const clearCart = function(db) {
     .catch(err => console.error(err));
 }
 
-exports.clearCart = clearCart;
+exports.clearCartAfterSubmit = clearCartAfterSubmit;
