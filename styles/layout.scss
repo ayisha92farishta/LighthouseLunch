@@ -95,9 +95,10 @@ section.categories {
   justify-content: space-around;
 
   img {
-    border-style: solid;
+    border-style:none;
     border-width: 3px;
     border-color: rgb(100, 102, 107);
+    border-radius:20px ;
   }
   img:hover {
     box-shadow: 5px 5px rgb(55, 63, 83);
