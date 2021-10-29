@@ -67,7 +67,13 @@ const client = require("twilio")(accountSid, authToken);
 
 // ********** GET ROUTES **********
 
+
 app.get("/", (req, res) => {
+  res.render("index")
+})
+
+//change here......."/menu" ---> "/"
+app.get("/menu", (req, res) => {
   const queryStringMenuItem = `
     SELECT id, name, price, description, thumbnail_photo_url
     FROM menu_items;
