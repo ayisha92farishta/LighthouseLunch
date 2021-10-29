@@ -98,7 +98,7 @@ section.categories {
     border-style:none;
     border-width: 3px;
     border-color: rgb(100, 102, 107);
-    border-radius:20px ;
+    border-radius:15px ;
   }
   img:hover {
     box-shadow: 5px 5px rgb(55, 63, 83);
@@ -167,13 +167,11 @@ section.categories {
 // Landing Page
 
 
-
-
 #logo-main-page {
   font-size: 130px;
   color:rgba(31, 7, 70, 0.884);
   font-family:'Lobster', cursive;
-
+ text-align: center;
   animation-duration: 3s;
   animation-name: slide-in;
 }
@@ -195,7 +193,11 @@ section.categories {
   font-size: 50px;
   text-align: center;
   animation-delay: 5s;
-  animation: fadein 4s; /* Safari, Chrome and Opera > 12.1 */
+  -webkit-animation: fadein 6s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 6s; /* Firefox < 16 */
+   -ms-animation: fadein 6s; /* Internet Explorer */
+    -o-animation: fadein 6s; /* Opera < 12.1 */
+       animation: fadein 6s;
 
 }
 @keyframes fadein {
@@ -220,6 +222,3 @@ to   { opacity: 1; }
   100% { left:0%;}
 }
 
-.summary {
-
- }
