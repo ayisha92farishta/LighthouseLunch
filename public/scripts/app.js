@@ -40,21 +40,20 @@ $(() => {
     });
   });
 
-  const deleteSameItem = function(itemId) {
+  const deleteSameItem = function (itemId) {
     return $.ajax({
       method: "PATCH",
       url: `/cart/${itemId}`,
     });
   };
-  $(".deleteOneItem").on("submit", function (event) {
+  $(".dleteoneItem").on("submit", function (event) {
     event.preventDefault();
     const id = $(this).attr("data_id");
-    const form = $(`[data-id=${id}]`).children();
+    // const form = $(`[data-id=${id}]`).children();
     // console.log('form', form);
     //console.log(id);
     deleteSameItem(id).then(() => {
-    window.location.reload();
+      window.location.reload();
     });
   });
-
 });

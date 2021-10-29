@@ -1,56 +1,58 @@
-const dbParams = require("./lib/db");
-require("dotenv").config();
+const dbParams = require('./lib/db');
+require('dotenv').config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require("twilio")(accountSid, authToken);
+const client = require('twilio')(accountSid, authToken);
+
 
 // ********** Add new user into database **********
-const addUser = function (obj) {
-  return db
-    .query(
-      `
+const addUser = function(obj) {
+  return db.query(`
   INSERT INTO users (name, email, password, phone)
   VALUES($1, $2, $3, $4)
   RETURNING *
-  `,
-      [users.name, users.email, users.password, users.phone]
-    )
-    .then((res) => res.rows[0]);
+  `, [users.name, users.email, users.password, users.phone])
+    .then(res => res.rows[0]);
 };
 
 exports.addUser = addUser;
 
+
 // ********** Menu Items **********
-const getMenuItems = function () {
+const getMenuItems = function() {
+
   const queryString = `
     SELECT name, price, description, thumbnail_photo_url
     FROM menu_items;
     `;
 
-  const queryParams = [];
+    const queryParams = [];
 
-  db.query(queryString, queryParams).then((res) => res.rows[0]);
-};
+    db.query(queryString, queryParams)
+      .then(res => res.rows[0]);
+
+;}
 
 exports.getMenuItems = getMenuItems;
 
 // ********** DELETE ITEM FROM THE CART **********
 
-const removeItemFromCart = function (db, itemId) {
+const removeItemFromCart = function(db, itemId) {
   const queryString = `DELETE FROM menu_items_carts WHERE id = $1`;
   const queryParams = [itemId];
-  return db
-    .query(queryString, queryParams)
+    return db.query(queryString, queryParams)
     .then(() => {
       return "Successfully deleted!";
     })
-    .catch((err) => console.error(err));
-};
+    .catch(err => console.error(err));
+}
 
 exports.removeItemFromCart = removeItemFromCart;
 
+
 // ********** Send SMS to client & host after checkout **********
-const sendMessage = function () {
+const sendMessage = function() {
+
   const queryString = `
     SELECT users.phone, orders.id
     FROM users
@@ -60,38 +62,37 @@ const sendMessage = function () {
 
   const queryParams = [orders.id];
 
-  return db
-    .query(queryString, queryParams)
+  return db.query(queryString, queryParams)
     .then(
       client.messages
         .create({
           body: `Your order number is ${orders.id}. Thank you for choosing Lighthouse Lunch!!`,
-          from: "+16042271715",
-          to: `+1${users.phone}`,
+          from: '+16042271715',
+          to: `+1${users.phone}`
         })
         .create({
           body: `You have a new order! Order Number: ${orders.id}.`,
-          from: "+16042271715",
-          to: "+16472343536",
+          from: '+16042271715',
+          to: '+16472343536'
         })
-        .then((message) => console.log(message.sid))
+        .then(message => console.log(message.sid))
     )
-    .then((res) => res.rows[0]);
+    .then(res => res.rows[0]);
+
 };
 
 exports.sendMessage = sendMessage;
 
 // ********** DELETE ITEM FROM THE CART AFTER SUBMIT THE ORDER **********
 
-const clearCartAfterSubmit = function (db) {
+const clearCartAfterSubmit = function(db) {
   const queryString = `DELETE FROM menu_items_carts`;
   const queryParams = [];
-  return db
-    .query(queryString, queryParams)
+    return db.query(queryString, queryParams)
     .then(() => {
       return "Successfully deleted!";
     })
-    .catch((err) => console.error(err));
-};
+    .catch(err => console.error(err));
+}
 
 exports.clearCartAfterSubmit = clearCartAfterSubmit;
