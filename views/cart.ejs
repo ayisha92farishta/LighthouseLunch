@@ -44,8 +44,8 @@
               <th>Item name</th>
               <th>Price (CAD)</th>
               <th>Remove From Cart </th>
-              <th>Add </th>
               <th>quantity</th>
+              <th>Add </th>
               <th>Delete </th>
 
             </tr>
@@ -77,12 +77,14 @@
 
                   </form>
 
-                  <form action="add" method="POST" class="addItem" data-id="<%= item.menu_item_id %>">
-
-                    <td> <button class="btn btn-outline-dark" type="submit" style="width: auto;">+</button> </td>
                     <td class="item-quantity">
                       <%= item.qty %>
                     </td>
+
+
+                  <form action="add" method="POST" class="addItem" data-id="<%= item.menu_item_id %>">
+
+                    <td> <button class="btn btn-outline-dark" type="submit" style="width: auto;">+</button> </td>
                   </form>
                   <form class="dleteoneItem" data_id="<%= item.menu_item_id %>">
 
