@@ -29,7 +29,7 @@ This project is a food ordering and pickup app for a single restaurant.In this a
 
 ## Collaboration
 
-- [Ayisha Farishta](https://github.com/ayisha92farishta)
+- [Ayisha Farishta Ashraf](https://github.com/ayisha92farishta)
 - [Brian LaFond](https://github.com/briandlafond)
 - [Hatem Alahmad Alrakad](https://github.com/hrakad)
 
